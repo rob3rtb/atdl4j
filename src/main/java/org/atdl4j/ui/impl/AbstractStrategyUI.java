@@ -652,53 +652,59 @@ public abstract class AbstractStrategyUI
 	public void setFIXMessage(String fixMessage)
 	{
 		// TODO: need to reverse engineer state groups
-
-		String[] fixParams = fixMessage.split( "\\001" );
-
-		for ( int i = 0; i < fixParams.length; i++ )
-		{
-			String[] pair = fixParams[ i ].split( "=" );
-			int tag = Integer.parseInt( pair[ 0 ] );
-			String value = pair[ 1 ];
-
-			logger.debug("setFIXMessage() i: " + i + " extracted tag: " + tag + " value: " + value );
-
-			// not repeating group
-			if ( tag < Atdl4jConstants.TAG_NO_STRATEGY_PARAMETERS || tag > Atdl4jConstants.TAG_STRATEGY_PARAMETER_VALUE )
-			{
-				// -- Note that getAtdl4jWidgetWithParameterMap() constructs a new Map --
-				for ( Atdl4jWidget<?> widget : getAtdl4jWidgetWithParameterMap().values() )
-				{
-					if ( widget.getParameter().getFixTag() != null && widget.getParameter().getFixTag().equals( BigInteger.valueOf( tag ) ) )
-					{
-						loadAtdl4jWidgetWithFIXValue( widget, value );
-					}
-				}
-			}
-			// StrategyParams repeating group
-			else if ( tag == Atdl4jConstants.TAG_NO_STRATEGY_PARAMETERS )
-			{
-				i++;
-				for ( int j = 0; j < Integer.parseInt( value ); j++ )
-				{
-					String name = fixParams[ i ].split( "=" )[ 1 ];
-					String value2 = fixParams[ i + 2 ].split( "=" )[ 1 ];
-
-					// -- Note that getAtdl4jWidgetWithParameterMap() constructs a new Map --
-					for ( Atdl4jWidget<?> widget : getAtdl4jWidgetWithParameterMap().values() )
-					{
-						if ( widget.getParameter().getName() != null && widget.getParameter().getName().equals( name ) )
-						{
-							loadAtdl4jWidgetWithFIXValue( widget, value2 );
-						}
-					}
-					i = i + 3;
-				}
-			}
-		}
-
-		fireStateListeners();
-		logger.debug("setFIXMessage() complete.");
+	    try {
+    		String[] fixParams = fixMessage.split( "\\001" );
+    
+    		for ( int i = 0; i < fixParams.length; i++ )
+    		{
+    			String[] pair = fixParams[ i ].split( "=" );
+    			int tag = Integer.parseInt( pair[ 0 ] );
+    			String value = pair[ 1 ];
+    
+    			logger.debug("setFIXMessage() i: " + i + " extracted tag: " + tag + " value: " + value );
+    
+    			// not repeating group
+    			if ( tag < Atdl4jConstants.TAG_NO_STRATEGY_PARAMETERS || tag > Atdl4jConstants.TAG_STRATEGY_PARAMETER_VALUE )
+    			{
+    				// -- Note that getAtdl4jWidgetWithParameterMap() constructs a new Map --
+    				for ( Atdl4jWidget<?> widget : getAtdl4jWidgetWithParameterMap().values() )
+    				{
+    					if ( widget.getParameter().getFixTag() != null && widget.getParameter().getFixTag().equals( BigInteger.valueOf( tag ) ) )
+    					{
+    						loadAtdl4jWidgetWithFIXValue( widget, value );
+    					}
+    				}
+    			}
+    			// StrategyParams repeating group
+    			else if ( tag == Atdl4jConstants.TAG_NO_STRATEGY_PARAMETERS )
+    			{
+    				i++;
+    				for ( int j = 0; j < Integer.parseInt( value ); j++ )
+    				{
+    					String name = fixParams[ i ].split( "=" )[ 1 ];
+    					String value2 = fixParams[ i + 2 ].split( "=" )[ 1 ];
+    
+    					// -- Note that getAtdl4jWidgetWithParameterMap() constructs a new Map --
+    					for ( Atdl4jWidget<?> widget : getAtdl4jWidgetWithParameterMap().values() )
+    					{
+    						if ( widget.getParameter().getName() != null && widget.getParameter().getName().equals( name ) )
+    						{
+    							loadAtdl4jWidgetWithFIXValue( widget, value2 );
+    						}
+    					}
+    					i = i + 3;
+    				}
+    			}
+    		}
+    		
+    
+    		fireStateListeners();
+    		logger.debug("setFIXMessage() complete.");
+	    } catch (Exception e)
+	    {
+	      logger.error("FIX message could not be loaded into panel:" + fixMessage);
+	      throw e;
+	    }
 	}
 
 	/**
@@ -709,16 +715,16 @@ public abstract class AbstractStrategyUI
 	 */
 	protected boolean loadAtdl4jWidgetWithFIXValue( Atdl4jWidget<?> aWidget, String aValue )
 	{
-		aWidget.setFIXValue( aValue );
-		
-		// -- Handles toggling associated controls (eg checkbox or radio button) when control is set to a non Atdl4jConstants.VALUE_NULL_INDICATOR value --
-		fireLoadFixMessageStateListenersForAtdl4jWidget( aWidget );
-
-		fireStateListenersForAtdl4jWidget( aWidget );
-		
-		// -- If the specified aWidget is part of a Collapsible StrategyPanel which is currently Collapsed, then expand it -- 
-		// -- (aCollapsed=false) --
-		return getStrategyPanelHelper().expandAtdl4jWidgetParentStrategyPanel( aWidget );
+  		aWidget.setFIXValue( aValue );
+  		
+  		// -- Handles toggling associated controls (eg checkbox or radio button) when control is set to a non Atdl4jConstants.VALUE_NULL_INDICATOR value --
+  		fireLoadFixMessageStateListenersForAtdl4jWidget( aWidget );
+  
+  		fireStateListenersForAtdl4jWidget( aWidget );
+  		
+  		// -- If the specified aWidget is part of a Collapsible StrategyPanel which is currently Collapsed, then expand it -- 
+  		// -- (aCollapsed=false) --
+  		return getStrategyPanelHelper().expandAtdl4jWidgetParentStrategyPanel( aWidget );
 	}
 
 	/* (non-Javadoc)

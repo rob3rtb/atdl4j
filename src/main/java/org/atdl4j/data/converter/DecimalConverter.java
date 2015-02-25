@@ -391,7 +391,7 @@ public class DecimalConverter
 	 * @see org.atdl4j.data.ParameterTypeConverter#convertFixWireValueToParameterValue(java.lang.String)
 	 */
 	@Override
-	public Object convertFixWireValueToParameterValue(String aFixWireValue)
+	public BigDecimal convertFixWireValueToParameterValue(String aFixWireValue)
 	{
 		BigDecimal tempBigDecimal = null;
 		

@@ -1,7 +1,9 @@
 package org.atdl4j.data.converter;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.apache.log4j.Logger;
 import org.atdl4j.data.ParameterTypeConverter;
 import org.atdl4j.fixatdl.core.IntT;
 import org.atdl4j.fixatdl.core.LengthT;
@@ -23,9 +25,16 @@ import org.atdl4j.fixatdl.core.TagNumT;
 public class IntegerConverter
 		extends AbstractTypeConverter<BigInteger>
 {
+  
+    private static final Logger log = Logger.getLogger(IntegerConverter.class);
+  
+    // to handle decimal values even if an Integer was expected in the FIX message 
+    private DecimalConverter decimalConverter;
+  
 	public IntegerConverter(ParameterT aParameter)
 	{
 		super( aParameter );
+		decimalConverter = new DecimalConverter(aParameter);
 	}
 
 	public IntegerConverter(ParameterTypeConverter<?> aParameterTypeConverter)
@@ -134,7 +143,19 @@ public class IntegerConverter
 	@Override
 	public Object convertFixWireValueToParameterValue(String aFixWireValue)
 	{
+	    try {
 		return convertStringToParameterValue( aFixWireValue );
+	    } catch (NumberFormatException e)
+	    {
+	      log.warn("Conversion failed:" + e.getMessage() + ". Trying decimal interpretation...");
+	      BigDecimal convertedDecimal = decimalConverter.convertFixWireValueToParameterValue(aFixWireValue);
+	      if (convertedDecimal != null)
+	      {
+	        return convertedDecimal.toBigInteger();
+	      } else {
+	        return null;
+	      }
+	    }
 	}
 
 	/* (non-Javadoc)
