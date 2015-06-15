@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.atdl4j</groupId>
-	<version>3.0.13</version>
+	<version>3.0.14</version>
 	<artifactId>atdl4j-ui</artifactId>
 	<packaging>jar</packaging>
 	<name>atdl4j-ui</name>
@@ -126,13 +126,13 @@
 				</configuration>
 	        </plugin>
 		</plugins>
-		<extensions>
+		<!-- <extensions>
 			<extension>
 				<groupId>org.jvnet.wagon-svn</groupId>
 				<artifactId>wagon-svn</artifactId>
 				<version>1.8</version>
 			</extension>
-		</extensions>
+		</extensions> -->
 	</build>
 	
 	<profiles>
