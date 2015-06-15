@@ -703,7 +703,7 @@ public abstract class AbstractStrategyUI
 	    } catch (Exception e)
 	    {
 	      logger.error("FIX message could not be loaded into panel:" + fixMessage);
-	      throw e;
+	      throw new RuntimeException("FIX message could not be loaded into panel:" + fixMessage);
 	    }
 	}
 
