@@ -10,6 +10,7 @@ package org.atdl4j.fixatdl.layout;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -66,6 +67,8 @@ public class StrategyPanelT {
     protected PanelOrientationT orientation;
     @XmlAttribute
     protected BorderT border;
+    @XmlAttribute(namespace="http://www.hsoftware.com/electronictrading")
+    protected String displayZone;
 
     /**
      * Gets the value of the strategyPanel property.
@@ -275,6 +278,32 @@ public class StrategyPanelT {
      */
     public void setBorder(BorderT value) {
         this.border = value;
+    }
+
+
+
+    /**
+     * Gets the value of the displayZone property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDisplayZone() {
+      return displayZone;
+    }
+    
+    /**
+     * Sets the value of the displayZone property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDisplayZone(String displayZone) {
+      this.displayZone = displayZone;
     }
 
 }

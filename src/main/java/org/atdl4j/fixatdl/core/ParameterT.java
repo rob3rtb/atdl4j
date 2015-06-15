@@ -11,6 +11,7 @@ package org.atdl4j.fixatdl.core;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -311,5 +312,12 @@ public abstract class ParameterT {
     public void setDefinedByFIX(Boolean value) {
         this.definedByFIX = value;
     }
+
+    @Override
+    public String toString() {
+      return "ParameterT [name=" + name + ", fixTag=" + fixTag + "]";
+    }
+    
+    
 
 }

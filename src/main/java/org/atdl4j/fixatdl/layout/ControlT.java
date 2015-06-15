@@ -10,12 +10,14 @@ package org.atdl4j.fixatdl.layout;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+
 import org.atdl4j.fixatdl.flow.StateRuleT;
 
 
@@ -328,5 +330,12 @@ public abstract class ControlT {
     public void setDisableForTemplate(Boolean value) {
         this.disableForTemplate = value;
     }
+
+    @Override
+    public String toString() {
+      return "ControlT [id=" + id + ", parameterRef=" + parameterRef + "]";
+    }
+    
+    
 
 }
